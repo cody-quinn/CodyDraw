@@ -38,6 +38,7 @@ def main():
     print("$      - Press 'c' to clear the canvas / frame")
     print("$      - Press 's' to save your work")
     print("$      - Press 'o' to open saved work")
+    print("$      - Press 'e' to export your work into a PNG")
     print("$      - Press '1' to draw in the color white")
     print("$      - Press '2' to draw in the color red")
     print("$      - Press '3' to draw in the color green")

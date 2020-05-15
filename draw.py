@@ -4,6 +4,8 @@ import os
 import glfw
 import main
 import time
+from PIL import Image
+from pathlib import Path
 
 mouse_x = 0
 mouse_y = 0
@@ -368,6 +370,9 @@ def key_press(window, key, action):
     if key == 65 and action == 1 and state == 1:
         toggle_onion_skin() ## A
 
+    if key == 69 and action == 1:
+        export()
+
 def file_save():
     print("$  ")
     print("$  We see that your are trying to save your Cody Draw(TM) project! ")
@@ -489,3 +494,20 @@ def toggle_onion_skin():
             onionskin = False
         else:
             onionskin = True
+
+def export():
+    name = input("Please input a name \n >> ")
+    Path(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "exports/").mkdir(parents=True, exist_ok=True)
+
+    im = Image.new('RGBA', (main.grid_width * main.grid_chunk_width, main.grid_height * main.grid_chunk_height))
+    for pixel in points[0]:
+        for x in range(pixel[0] * main.grid_chunk_width, pixel[0] * main.grid_chunk_width + main.grid_chunk_width):
+            for y in range(pixel[1] * main.grid_chunk_height, pixel[1] * main.grid_chunk_height + main.grid_chunk_height):
+                r = int(round(pixel[2] * 255))
+                g = int(round(pixel[3] * 255))
+                b = int(round(pixel[4] * 255))
+                im.putpixel((x, y), (r,g,b))
+    im.save(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + 'exports/' + name + '.png')
+    print("$ ")
+    print("$ Image exported successfully as " + name + ".png")
+    print("$ ")
