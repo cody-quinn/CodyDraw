@@ -1,9 +1,6 @@
-import math
-import utility
-import os   
+import os
 import glfw
-import main
-import time
+from src import main, utility
 from PIL import Image
 from pathlib import Path
 
@@ -100,12 +97,12 @@ def draw():
         utility.draw_box(main.grid_chunk_width / 2, main.grid_chunk_height / 2, main.grid_chunk_width * 4, main.grid_chunk_height * 15, 1, 1, 1, 0.0)
 
         ## CURRENT COLOR
-        utility.draw_box(main.grid_chunk_width, main.grid_chunk_height, main.grid_chunk_width*3, main.grid_chunk_height*2, r, g, b, 0.0)
+        utility.draw_box(main.grid_chunk_width, main.grid_chunk_height, main.grid_chunk_width * 3, main.grid_chunk_height * 2, r, g, b, 0.0)
 
         x = 1
         y = 4
         for color in pallet:
-            utility.draw_box(main.grid_chunk_width*x, main.grid_chunk_height*y, main.grid_chunk_width, main.grid_chunk_height, color[0], color[1], color[2], 0.0)
+            utility.draw_box(main.grid_chunk_width * x, main.grid_chunk_height * y, main.grid_chunk_width, main.grid_chunk_height, color[0], color[1], color[2], 0.0)
             x = x+1
             if x >= 4:
                 x = 1
@@ -116,29 +113,29 @@ def draw():
         for color in recent_colors:
             if x>=4:
                 break
-            utility.draw_box(main.grid_chunk_width*x, main.grid_chunk_height*y, main.grid_chunk_width, main.grid_chunk_height, color[0], color[1], color[2], 0.0)
+            utility.draw_box(main.grid_chunk_width * x, main.grid_chunk_height * y, main.grid_chunk_width, main.grid_chunk_height, color[0], color[1], color[2], 0.0)
             x = x+1
         
         if animate:
             ## OUTLINE
-            utility.draw_box(main.grid_chunk_width / 2, main.window_height - (main.grid_chunk_height*4), main.grid_width * main.grid_chunk_width - main.grid_chunk_width, main.grid_chunk_height * 3, 1, 1, 1, 0.0)
+            utility.draw_box(main.grid_chunk_width / 2, main.window_height - (main.grid_chunk_height * 4), main.grid_width * main.grid_chunk_width - main.grid_chunk_width, main.grid_chunk_height * 3, 1, 1, 1, 0.0)
             
             ## PLAY / PAUSE
             if state == 1:
-                utility.draw_box(main.grid_chunk_width, main.window_height - (main.grid_chunk_height*3), main.grid_chunk_width, main.grid_chunk_height, 0, 0.8, 0, 0.0)
+                utility.draw_box(main.grid_chunk_width, main.window_height - (main.grid_chunk_height * 3), main.grid_chunk_width, main.grid_chunk_height, 0, 0.8, 0, 0.0)
             else:
-                utility.draw_box(main.grid_chunk_width, main.window_height - (main.grid_chunk_height*3), main.grid_chunk_width, main.grid_chunk_height, 0.8, 0, 0, 0.0)
+                utility.draw_box(main.grid_chunk_width, main.window_height - (main.grid_chunk_height * 3), main.grid_chunk_width, main.grid_chunk_height, 0.8, 0, 0, 0.0)
 
             ## TIMELINE
             for i in range(len(points)):
                 if (main.grid_width - 4) == i:
                     break
                 elif current_frame == i:
-                    utility.draw_box(main.grid_chunk_width * (i+3), main.window_height - (main.grid_chunk_height*3), main.grid_chunk_width, main.grid_chunk_height, 0, 0.5, 1, 0.0)
+                    utility.draw_box(main.grid_chunk_width * (i + 3), main.window_height - (main.grid_chunk_height * 3), main.grid_chunk_width, main.grid_chunk_height, 0, 0.5, 1, 0.0)
                 elif i % 2:
-                    utility.draw_box(main.grid_chunk_width * (i+3), main.window_height - (main.grid_chunk_height*3), main.grid_chunk_width, main.grid_chunk_height, 0.75, 0.75, 0.75, 0.0)
+                    utility.draw_box(main.grid_chunk_width * (i + 3), main.window_height - (main.grid_chunk_height * 3), main.grid_chunk_width, main.grid_chunk_height, 0.75, 0.75, 0.75, 0.0)
                 else:
-                    utility.draw_box(main.grid_chunk_width * (i+3), main.window_height - (main.grid_chunk_height*3), main.grid_chunk_width, main.grid_chunk_height, 0.5, 0.5, 0.5, 0.0)
+                    utility.draw_box(main.grid_chunk_width * (i + 3), main.window_height - (main.grid_chunk_height * 3), main.grid_chunk_width, main.grid_chunk_height, 0.5, 0.5, 0.5, 0.0)
                 
 
 
@@ -155,14 +152,14 @@ def mouse_update_event(xpos, ypos, window):
     if drawing:
         gridx = utility.convert_to_grid(main.grid_chunk_width, main.grid_chunk_height, xpos, ypos)[0]
         gridy = utility.convert_to_grid(main.grid_chunk_width, main.grid_chunk_height, xpos, ypos)[1]
-        if not utility.point_exists(points[current_frame],gridx,gridy):
+        if not utility.point_exists(points[current_frame], gridx, gridy):
             points[current_frame].append((gridx, gridy, r, g, b))
             glfw.set_window_title(window, "Drawing! - Left click to place, right click to break - " + str(len(points[current_frame]) - 1) + " Pixels Drawn - Red: " + str(r) + ", Green: " + str(g) + ", Blue: " + str(b))
 
     if deleting:
         gridx = utility.convert_to_grid(main.grid_chunk_width, main.grid_chunk_height, xpos, ypos)[0]
         gridy = utility.convert_to_grid(main.grid_chunk_width, main.grid_chunk_height, xpos, ypos)[1]
-        if utility.point_exists(points[current_frame],gridx,gridy):
+        if utility.point_exists(points[current_frame], gridx, gridy):
             for a in points[current_frame]:
                 if a[0] == gridx and a[1] == gridy:
                     points[current_frame].remove(a)
@@ -175,7 +172,9 @@ def mouse_click_event(window, button, action):
     global recent_colors
 
     if button == 0 and action == 1:
-        if picker == True and mouse_x > (main.grid_chunk_width / 2) and mouse_x < (main.grid_chunk_width / 2) + (main.grid_chunk_width * 4) and mouse_y > (main.grid_chunk_height / 2) and mouse_y < (main.grid_chunk_height / 2) + (main.grid_chunk_height * 15):
+        if picker == True and mouse_x > (main.grid_chunk_width / 2) and mouse_x < (main.grid_chunk_width / 2) + (
+                main.grid_chunk_width * 4) and mouse_y > (main.grid_chunk_height / 2) and mouse_y < (
+                main.grid_chunk_height / 2) + (main.grid_chunk_height * 15):
             picker_clicked(0)
         else:
             if r==recent_colors[0][0] and g==recent_colors[0][1] and b==recent_colors[0][2]:
@@ -190,7 +189,7 @@ def mouse_click_event(window, button, action):
 
             gridx = utility.convert_to_grid(main.grid_chunk_width, main.grid_chunk_height, mouse_x, mouse_y)[0]
             gridy = utility.convert_to_grid(main.grid_chunk_width, main.grid_chunk_height, mouse_x, mouse_y)[1]
-            if not utility.point_exists(points[current_frame],gridx,gridy) and not mouse_x == 0 and not mouse_y == 0:
+            if not utility.point_exists(points[current_frame], gridx, gridy) and not mouse_x == 0 and not mouse_y == 0:
                 points[current_frame].append((gridx, gridy, r, g, b))
                 glfw.set_window_title(window, "Drawing! - Left click to place, right click to break - " + str(len(points[current_frame]) - 1) + " Pixels Drawn - Red: " + str(r) + ", Green: " + str(g) + ", Blue: " + str(b))
 
@@ -198,14 +197,16 @@ def mouse_click_event(window, button, action):
         drawing = False
 
     if button == 1 and action == 1:
-        if picker == True and mouse_x > (main.grid_chunk_width / 2) and mouse_x < (main.grid_chunk_width / 2) + (main.grid_chunk_width * 4) and mouse_y > (main.grid_chunk_height / 2) and mouse_y < (main.grid_chunk_height / 2) + (main.grid_chunk_height * 15):
+        if picker == True and mouse_x > (main.grid_chunk_width / 2) and mouse_x < (main.grid_chunk_width / 2) + (
+                main.grid_chunk_width * 4) and mouse_y > (main.grid_chunk_height / 2) and mouse_y < (
+                main.grid_chunk_height / 2) + (main.grid_chunk_height * 15):
             picker_clicked(1)
         else:
             drawing = False
             deleting = True
             gridx = utility.convert_to_grid(main.grid_chunk_width, main.grid_chunk_height, mouse_x, mouse_y)[0]
             gridy = utility.convert_to_grid(main.grid_chunk_width, main.grid_chunk_height, mouse_x, mouse_y)[1]
-            if utility.point_exists(points[current_frame],gridx,gridy):
+            if utility.point_exists(points[current_frame], gridx, gridy):
                 for a in points[current_frame]:
                     if a[0] == gridx and a[1] == gridy:
                         points[current_frame].remove(a)

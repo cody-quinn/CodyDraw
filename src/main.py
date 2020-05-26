@@ -1,11 +1,7 @@
 import glfw
-import utility
 import math
-import os
-import mainmenu
-import draw
+from src import mainmenu, draw
 from OpenGL.GL import *
-from OpenGL.GLU import *
 
 ##### WARNING ---- CHANGING THESE VALUES MAY EFFECT THE OUTCOME OF SAVED IMAGES #####
 

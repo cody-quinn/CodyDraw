@@ -1,5 +1,4 @@
-import math
-import utility
+from src import utility
 
 button_width = 0
 button_height = 0
